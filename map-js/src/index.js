@@ -1,3 +1,3 @@
-import { initialize_leaflet_map } from "./init_map";
+import { initialize_leaflet_map } from "./init-map";
 
 initialize_leaflet_map();
