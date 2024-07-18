@@ -34,14 +34,10 @@
                 <div class="form-group">
                     <label for="max-cells">Maximum number of cells: </label>
                     <span id="max-cells-val">25</span>
-                    <input type="range" class="form-control-range" id="max-cells" min="1" max="50" step="1"
+                    <input type="range" class="form-control-range" id="max-s2-cells" min="1" max="50" step="1"
                         onInput="$('#max-cells-val').html($(this).val())">
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="interior-only">
-                    <label class="form-check-label" for="interior-only">Interior only</label>
-                </div>
-                <button type="button" class="mt-3 btn btn-primary">Generate S2</button>
+                <button type="button" class="mt-3 btn btn-primary" id="generate-s2-button">Generate Cells</button>
             </div>
         </div>
     </div>
