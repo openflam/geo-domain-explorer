@@ -4,9 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Load Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Load leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Load leaflet-geoman CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
+    <!-- Load leaflet-geosearch CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@latest/dist/geosearch.css" />
+
     <title>Geo Domain Explorer</title>
 </head>
 
@@ -15,7 +23,7 @@
         <div class="row" style="height: 100%;">
 
             <!-- Main Section -->
-            <div class="col-md-9">
+            <div class="col-md-9 p-0">
                 <!-- Map is loaded here -->
                 <div id="map" style="height: 100%; width: 100%;"></div>
             </div>
@@ -45,6 +53,14 @@
     <!-- Load s2 region coverer WASM -->
     <script src="assets/wasm/wasm_exec.js"></script>
     <script src="assets/wasm/load_wasm.js"></script>
+
+    <!-- Load leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Load leaflet-geosearch -->
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.js"></script>
+    <!-- Load leaflet-geosearch -->
+    <script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
 
     <!-- The main script loads the map contents -->
     <script src="assets/main.js"></script>
