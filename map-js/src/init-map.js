@@ -1,9 +1,9 @@
-import { currentPolygonLayer, setCurrentPolygonCoords, map, s2CellsLayerGroup } from "./global-state";
+import { globalState } from "./global-state";
 
 // leaflet, leaflet-geoman, and leaflet-geosearch are imported in index.html as including them in 
 // the bundle makes the bundle size too large
 function initialize_leaflet_map() {
-    map = L.map('map').setView([40.44266, -79.94327], 17);
+    var map = L.map('map').setView([40.44266, -79.94327], 17);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -30,11 +30,14 @@ function initialize_leaflet_map() {
 
     // When a new polygon is started, deletes the current polygon layer
     map.on('pm:drawstart', (e) => {
-        if (currentPolygonLayer) {
-            map.removeLayer(currentPolygonLayer);
+        if (globalState.currentPolygonLayer) {
+            map.removeLayer(globalState.currentPolygonLayer);
+            globalState.currentPolygonLayer = null;
+            globalState.currentPolygonCoords = null;
         }
-        if (s2CellsLayerGroup) {
-            map.removeLayer(s2CellsLayerGroup);
+        if (globalState.s2CellsLayerGroup) {
+            map.removeLayer(globalState.s2CellsLayerGroup);
+            globalState.s2CellsLayerGroup = null;
         }
     });
 
@@ -44,10 +47,12 @@ function initialize_leaflet_map() {
         if (e.shape === 'Polygon') {
             const layer = e.layer;
             const latLngs = layer.getLatLngs()[0];
-            setCurrentPolygonCoords(latLngs);
-            currentPolygonLayer = layer;
+            globalState.setCurrentPolygonCoords(latLngs);
+            globalState.currentPolygonLayer = layer;
         }
     });
+
+    globalState.map = map;
 }
 
 export { initialize_leaflet_map };

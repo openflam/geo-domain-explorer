@@ -1,8 +1,8 @@
-import { map, currentPolygonCoords, s2CellsLayerGroup } from "./global-state";
+import { globalState } from "./global-state";
 
 // Get S2 region cover for the current polygon coordinates
-function getS2RegionCover(maxCells) {
-    var points = currentPolygonCoords;
+function getS2RegionCover(maxCells, polygonCoords) {
+    var points = polygonCoords;
     var minLevel = 1;
     var maxLevel = 30;
     var maxCells = maxCells;
@@ -13,13 +13,17 @@ function getS2RegionCover(maxCells) {
 
 // Draw the S2 region cover on the map
 function drawS2RegionCover() {
-    if (!currentPolygonCoords) {
+    if (!globalState.currentPolygonCoords) {
         alert('Please draw a polygon first');
         return;
     }
     var maxCells = document.getElementById('max-s2-cells').value;
+    if (!maxCells) {
+        alert('Please enter a number of cells');
+        return;
+    }
     maxCells = parseInt(maxCells);
-    var cells = getS2RegionCover(maxCells);
+    var cells = getS2RegionCover(maxCells, globalState.currentPolygonCoords);
 
     var layersList = [];
     for (let cellID in cells) {
@@ -37,11 +41,14 @@ function drawS2RegionCover() {
     }
     // Remove the current S2 cells layer group
     // if it exists
-    if (s2CellsLayerGroup) {
-        map.removeLayer(s2CellsLayerGroup);
+    if (globalState.s2CellsLayerGroup) {
+        globalState.map.removeLayer(globalState.s2CellsLayerGroup);
     }
-    s2CellsLayerGroup = L.layerGroup(layersList);
-    s2CellsLayerGroup.addTo(map);
+    globalState.s2CellsLayerGroup = L.layerGroup(layersList);
+    globalState.s2CellsLayerGroup.addTo(globalState.map);
+
+    // Update the current S2 cells
+    globalState.currentS2Cells = cells;
 }
 
 export { drawS2RegionCover };

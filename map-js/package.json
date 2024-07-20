@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode=production",
+    "build": "webpack --mode=production && cp ./dist/* ../assets/",
     "serve": "http-server . --port 9000 -o /test/test.html",
     "remove-wasm": "rm -f region-coverer-wasm/region-coverer.wasm",
     "copy-wasm": "cp ../assets/wasm/region-coverer.wasm region-coverer-wasm/",

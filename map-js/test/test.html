@@ -10,6 +10,12 @@
 
 <body>
     <div id="mocha"></div>
+
+    <!-- Mock hidden divs -->
+    <div id="map" style="display: none;"></div>
+    <div id="generate-s2-button" style="display: none;"></div>
+    <div id="generate-zonefile-button" style="display: none;"></div>
+
     <script src="../node_modules/mocha/mocha.js"></script>
     <script src="../node_modules/chai/chai.js"></script>
     <script>
@@ -21,8 +27,20 @@
     <script src="../region-coverer-wasm/wasm_exec_for_test.js"></script>
     <script src="../region-coverer-wasm/load_wasm_for_test.js"></script>
 
+    <!-- Load leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Load leaflet-geoman -->
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.js"></script>
+    <!-- Load leaflet-geosearch -->
+    <script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
+
     <!-- Test files -->
+    <script src="../dist/main.js"></script>
     <script src="./test_regionCoverer.js"></script>
+    <script src="./test_s2Utils.js"></script>
+
+    <!-- Load WASM and run tests -->
     <script>
         window.onload = async () => {
             await loadWasm();
