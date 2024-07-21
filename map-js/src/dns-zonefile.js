@@ -54,14 +54,13 @@ function generateZoneFile(params) {
         { "name": "@", "host": params.mname },
     ];
 
-    var rrType = params.rrType.toLowerCase();
-    zoneJSON[rrType] = []
+    zoneJSON["txt"] = []
     for (let domain of domains) {
         // Remove the common suffix and the trailing dot
         var subDomain = domain.slice(0, domain.length - origin.length - 1);
-        zoneJSON[rrType].push({
+        zoneJSON["txt"].push({
             "name": subDomain,
-            [DNS_DATA_KEYS[rrType]]: params.rrData,
+            "txt": JSON.stringify({ "type": params.rrType, "data": params.rrData }),
         });
     }
 
@@ -78,7 +77,7 @@ function generateZoneFileFromDOM() {
         retry: document.getElementById('retry').value,
         expire: document.getElementById('expire').value,
         minimum: document.getElementById('minimum').value,
-        rrType: document.getElementById('rr-type').value.toLowerCase(),
+        rrType: document.getElementById('rr-type').value,
         rrData: document.getElementById('rr-data').value,
         TTL: document.getElementById('ttl').value,
     };

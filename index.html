@@ -82,7 +82,11 @@
                     </div>
                     <div class="form-group">
                         <label for="rr-type">RR Type</label>
-                        <input type="text" class="form-control" id="rr-type" placeholder="CNAME" required>
+                        <select class="form-control custom-select" id="rr-type">
+                            <option value="MCNAME">MCNAME</option>
+                            <option value="MNS">MNS</option>
+                            <option value="MA">MA</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="rr-data">RR Data</label>
