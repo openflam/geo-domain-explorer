@@ -1,5 +1,5 @@
 // The region coverer wasm file is loaded in test.html (assets/scripts/load_wasm.js)
-describe('RegionCoverer', function () {
+describe('RegionCoverer (go)', function () {
     it('Region coverer should return the correct cells', function () {
         const points = [
             { Lat: 40.44093709781874, Lng: -79.9479516187508 },
