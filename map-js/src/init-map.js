@@ -38,6 +38,7 @@ function initialize_leaflet_map() {
         if (globalState.s2CellsLayerGroup) {
             map.removeLayer(globalState.s2CellsLayerGroup);
             globalState.s2CellsLayerGroup = null;
+            globalState.currentS2Cells = null;
         }
     });
 

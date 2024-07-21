@@ -17,5 +17,8 @@
     "mocha": "^10.6.0",
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "dns-zonefile": "^0.3.2"
   }
 }

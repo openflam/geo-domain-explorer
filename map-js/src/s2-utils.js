@@ -35,7 +35,6 @@ function getGeoDomainsForCurrentCells(suffix) {
         var domain = getGeoDomainFromS2CellID(cellID, suffix);
         domains.push(domain);
     }
-    console.log(domains);
     return domains;
 }
 

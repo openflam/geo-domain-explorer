@@ -1,9 +1,9 @@
 import { initialize_leaflet_map } from "./init-map";
 import { drawS2RegionCover } from "./s2-region-cover";
-import { getGeoDomainsForCurrentCells } from "./s2-utils";
+import { generateZoneFile } from "./dns-zonefile";
 
 // Imports for testing
-import { getGeoDomainFromS2CellID } from './s2-utils';
+import { getGeoDomainFromS2CellID, getGeoDomainsForCurrentCells } from './s2-utils';
 import { globalState } from './global-state';
 
 
@@ -15,8 +15,15 @@ document.getElementById('generate-s2-button').addEventListener('click', () => {
 });
 
 // Add event listener to the generate DNS zone file button
-document.getElementById('generate-zonefile-button').addEventListener('click', () => {
-    getGeoDomainsForCurrentCells();
+const formElement = document.getElementById('dns-config-form');
+formElement.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent page reload
+    if (formElement.checkValidity()) {
+        generateZoneFile();
+    }
+    else {
+        formElement.reportValidity();
+    }
 });
 
 export var exportedForTesting = {
