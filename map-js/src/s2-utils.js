@@ -28,7 +28,7 @@ function getGeoDomainFromS2CellID(s2CellID, suffix) {
 function getGeoDomainsForCurrentCells(suffix) {
     if (!globalState.currentS2Cells) {
         alert('Please generate S2 cells first');
-        return;
+        return null;
     }
     var domains = [];
     for (let cellID in globalState.currentS2Cells) {
