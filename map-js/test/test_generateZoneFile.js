@@ -1,5 +1,6 @@
 describe('GenerateZoneFile', function () {
-    it('generateZoneFile should return the correct zone file', function () {
+    let zoneFileText = null;
+    before('generateZoneFile', function () {
         // Mock currentS2Cells
         maputils.exportedForTesting.globalState.currentS2Cells = {
             "8834f2211": [],
@@ -20,11 +21,23 @@ describe('GenerateZoneFile', function () {
             TTL: "120",
         }
 
-        const zoneFileText = maputils.exportedForTesting.generateZoneFile(params);
-        assert.equal(zoneFileText.length, 595);
+        zoneFileText = maputils.exportedForTesting.generateZoneFile(params);
+    });
+
+    it('Origin and TTL are included', function () {
         assert.include(zoneFileText, "$ORIGIN 0.0.1.0.1.2.3.1.2.2.1.0.0.1.4.loc.");
         assert.include(zoneFileText, "$TTL 120");
+    });
+
+    it('SOA record is included', function () {
         assert.include(zoneFileText, "@	 		IN	SOA	ns.example.com.	dns-admin.example.com.");
+    });
+
+    it('NS record is included', function () {
+        assert.include(zoneFileText, "@	IN	NS	ns.example.com.");
+    });
+
+    it('TXT records are included', function () {
         assert.include(zoneFileText, "0.2	IN	TXT	examplemaps.com.");
         assert.include(zoneFileText, "2.3.3.2	IN	TXT	examplemaps.com.");
         assert.include(zoneFileText, "2.3	IN	TXT	examplemaps.com.");

@@ -42,13 +42,17 @@ function generateZoneFile(params) {
         "soa": {
             "mname": params.mname,
             "rname": params.rname,
-            "serial": Date.now().toString(),
+            "serial": parseInt((Date.now() / 1000)) % Math.pow(2, 32), // 32-bit serial number
             "refresh": params.refresh,
             "retry": params.retry,
             "expire": params.expire,
             "minimum": params.minimum,
         },
     };
+
+    zoneJSON["ns"] = [
+        { "name": "@", "host": params.mname },
+    ];
 
     var rrType = params.rrType.toLowerCase();
     zoneJSON[rrType] = []
