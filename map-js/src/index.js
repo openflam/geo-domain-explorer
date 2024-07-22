@@ -3,7 +3,10 @@ import { drawS2RegionCover } from "./s2-region-cover";
 import { generateZoneFileFromDOM } from "./dns-zonefile";
 
 // Imports for testing
-import { getGeoDomainFromS2CellID, getGeoDomainsForCurrentCells } from './s2-utils';
+import {
+    getGeoDomainFromS2CellID, getGeoDomainsForCurrentCells,
+    getS2TokensForLocation, getS2TokenFromDomainDigits
+} from './s2-utils';
 import { globalState } from './global-state';
 import { generateZoneFile } from "./dns-zonefile";
 
@@ -31,6 +34,8 @@ export var exportedForTesting = {
     // s2-utils
     getGeoDomainFromS2CellID,
     getGeoDomainsForCurrentCells,
+    getS2TokensForLocation,
+    getS2TokenFromDomainDigits,
 
     // dns-zonefile
     generateZoneFile,
