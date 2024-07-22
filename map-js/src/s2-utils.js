@@ -54,6 +54,7 @@ function getS2TokenFromDomainDigits(domainDigits) {
         s2Token += parseInt(domainDigits[i]).toString(2).padStart(2, '0');
     }
     s2Token += '1';
+    s2Token = s2Token.padEnd(64, '0');
 
     return parseInt(s2Token, 2).toString(16);
 }
@@ -62,25 +63,26 @@ function getS2TokenFromDomainDigits(domainDigits) {
 function getS2TokensForLocation(lat, lon, error_m) {
     // Get geo domains for the location
     var geoDomains = LocationToGeoDomain.getGeoDomains(lat, lon, error_m, 'loc');
-    var s2Tokens = [];
+    var domainTos2Tokens = {};
     for (let domain of geoDomains) {
         // Remove the suffix
         let domainDigits = domain.split('.');
         domainDigits = domainDigits.slice(0, domainDigits.length - 1);
 
-        s2Tokens.push(getS2TokenFromDomainDigits(domainDigits));
+        domainTos2Tokens[domainDigits.join('.')] = getS2TokenFromDomainDigits(domainDigits);
     }
-    return s2Tokens;
+    return domainTos2Tokens;
 }
 
 function getS2VerticesForLocation(lat, lon, error_m) {
-    let s2Tokens = getS2TokensForLocation(lat, lon, error_m);
-    let s2Vertices = [];
-    for (let token of s2Tokens) {
-        let vertices = S2CellVerticesFromToken(token);
-        s2Vertices.push(vertices);
+    let domainToS2Token = getS2TokensForLocation(lat, lon, error_m);
+    let domainTos2Vertices = {};
+    for (let domain in domainToS2Token) {
+        let s2Token = domainToS2Token[domain];
+        let vertices = S2CellVerticesFromToken(s2Token);
+        domainTos2Vertices[domain] = vertices;
     }
-    return s2Vertices;
+    return domainTos2Vertices;
 }
 
 export {

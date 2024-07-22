@@ -6,10 +6,11 @@ function drawGeoDomainsforCurrentMarker() {
     let lat = markerLocation.lat;
     let lon = markerLocation.lng;
     let error_m = globalState.currentMarkerErrorCircleLayer.getRadius();
-    let allS2CellsVertices = getS2VerticesForLocation(lat, lon, error_m);
+    let domainTos2Vertices = getS2VerticesForLocation(lat, lon, error_m);
 
     let layersList = [];
-    for (let s2CellVertices of allS2CellsVertices) {
+    for (let domain in domainTos2Vertices) {
+        let s2CellVertices = domainTos2Vertices[domain];
         let coords = s2CellVertices.map((coord) => {
             return [coord.Lat, coord.Lng];
         });
