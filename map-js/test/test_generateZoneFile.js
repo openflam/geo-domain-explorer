@@ -39,8 +39,8 @@ describe('GenerateZoneFile', function () {
 
     it('TXT records are included', function () {
         assert.include(zoneFileText, '0.2	IN	TXT	{"type":"MCNAME","data":"examplemaps.com."}');
-        assert.include(zoneFileText, '2.2.3.2	IN	TXT	{"type":"MCNAME","data":"examplemaps.com."}');
-        assert.include(zoneFileText, '2.3.3.2	IN	TXT	{"type":"MCNAME","data":"examplemaps.com."}');
-        assert.include(zoneFileText, '2.3	IN	TXT	{"type":"MCNAME","data":"examplemaps.com."}');
+        assert.include(zoneFileText, '2.3.2	IN	TXT	{"type":"MCNAME","data":"examplemaps.com."}');
+        assert.include(zoneFileText, '3.3.2	IN	TXT	{"type":"MCNAME","data":"examplemaps.com."}');
+        assert.include(zoneFileText, '3	IN	TXT	{"type":"MCNAME","data":"examplemaps.com."}');
     });
 });

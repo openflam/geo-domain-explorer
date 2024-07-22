@@ -6,8 +6,14 @@ import { globalState } from './global-state';
 
 // Imports for testing
 import {
-    getGeoDomainFromS2CellID, getGeoDomainsForCurrentCells,
-    getS2TokensForLocation, getS2TokenFromDomainDigits
+    tokenToDomainDigits,
+    domainDigitsToToken,
+
+    binaryIDToDomainDigits,
+    domainDigitsToBinaryID,
+
+    getGeoDomainsForCurrentCells,
+    getS2TokensForLocation
 } from './s2-utils';
 import { generateZoneFile } from "./dns-zonefile";
 
@@ -81,10 +87,14 @@ document.getElementById('clear-polygon-button').addEventListener('click', () => 
 
 export var exportedForTesting = {
     // s2-utils
-    getGeoDomainFromS2CellID,
+    tokenToDomainDigits,
+    domainDigitsToToken,
+
+    binaryIDToDomainDigits,
+    domainDigitsToBinaryID,
+
     getGeoDomainsForCurrentCells,
     getS2TokensForLocation,
-    getS2TokenFromDomainDigits,
 
     // dns-zonefile
     generateZoneFile,

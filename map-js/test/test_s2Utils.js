@@ -1,21 +1,20 @@
 describe('S2Utils', function () {
-    const getGeoDomainFromS2CellIDTests = [
+    const conversionTests = [
         {
-            cellID: "8834f2204d",
-            suffix: "loc",
-            expectedDomain: "2.1.2.0.0.0.1.0.1.2.3.1.2.2.1.0.0.1.4.loc",
+            s2Token: "8834f2204d",
+            domainDigits: ['2', '1', '2', '0', '0', '0', '1', '0', '1', '2',
+                '3', '1', '2', '2', '1', '0', '0', '1', '4'],
         },
         {
-            cellID: "3bae1cf",
-            suffix: "loc",
-            expectedDomain: "3.1.2.3.0.0.3.1.1.3.1.7.loc",
+            s2Token: "eeb873c",
+            domainDigits: ['3', '1', '2', '3', '0', '0', '3', '1', '1', '3', '1', '7'],
         },
     ];
-    describe('S2 -> GeoDomain', function () {
-        getGeoDomainFromS2CellIDTests.forEach(function (testCase) {
-            it(`getGeoDomainFromS2CellID should return the correct domain for ${testCase.cellID}`, function () {
-                var domain = maputils.exportedForTesting.getGeoDomainFromS2CellID(testCase.cellID, testCase.suffix);
-                assert.equal(domain, testCase.expectedDomain);
+    describe('S2 -> Geo-domain', function () {
+        conversionTests.forEach(function (testCase) {
+            it(`tokenToDomainDigits should return the correct domain for ${testCase.s2Token}`, function () {
+                var domainDigits = maputils.exportedForTesting.tokenToDomainDigits(testCase.s2Token);
+                assert.deepEqual(domainDigits, testCase.domainDigits);
             });
         });
 
@@ -31,21 +30,18 @@ describe('S2Utils', function () {
             var expectedDomains = [
                 "3.3.0.0.1.2.3.1.2.2.1.0.0.1.4.loc",
                 "0.0.1.0.1.2.3.1.2.2.1.0.0.1.4.loc",
-                "2.0.1.0.1.0.1.2.3.1.2.2.1.0.0.1.4.loc",
+                "0.1.0.1.0.1.2.3.1.2.2.1.0.0.1.4.loc",
                 "1.1.0.3.0.0.1.2.3.1.2.2.1.0.0.1.4.loc"
             ];
             assert.deepEqual(domains, expectedDomains);
         });
     });
 
-    describe('GeoDomain -> S2', function () {
-        getGeoDomainFromS2CellIDTests.forEach(function (testCase) {
-            it(`getS2TokenFromDomainDigits should return the correct S2 token - ${testCase.cellID}`, function () {
-                let domainDigits = testCase.expectedDomain.split('.');
-                // Remove suffix
-                domainDigits = domainDigits.slice(0, domainDigits.length - 1);
-                var s2Token = maputils.exportedForTesting.getS2TokenFromDomainDigits(domainDigits);
-                assert.equal(s2Token, testCase.cellID);
+    describe('Geo-domain -> S2', function () {
+        conversionTests.forEach(function (testCase) {
+            it(`domainDigitsToToken should return the correct S2 token - ${testCase.s2Token}`, function () {
+                let s2Token = maputils.exportedForTesting.domainDigitsToToken(testCase.domainDigits);
+                assert.equal(s2Token, testCase.s2Token);
             });
         });
 
@@ -53,37 +49,37 @@ describe('S2Utils', function () {
             const lat = 40.44;
             const lon = -79.95;
             const error_m = 5;
-            const s2Tokens = maputils.exportedForTesting.getS2TokensForLocation(lat, lon, error_m);
+            const domainToS2TokensDict = maputils.exportedForTesting.getS2TokensForLocation(lat, lon, error_m);
+            const s2Tokens = Object.values(domainToS2TokensDict);
 
             const expectedS2Tokens = [
-                "220d3c89dff9",
-                "220d3c89dffb",
-                "220d3c89dffd",
-                "220d3c89dfff",
+                "9",
+                "8834f2277fe4",
+                "8834f2277fec",
+                "8834f2277ff4",
+                "8834f2277ffc",
                 "8834f2277ff",
-                "220d3c89dff",
+                "8834f2277fc",
                 "8834f2277f",
-                "220d3c89df",
+                "8834f2277c",
                 "8834f2277",
-                "220d3c89d",
+                "8834f2274",
                 "8834f227",
-                "220d3c89",
+                "8834f224",
                 "8834f23",
-                "220d3c9",
+                "8834f24",
                 "8834f3",
-                "220d3d",
+                "8834f4",
                 "8834f",
-                "220d3",
+                "8834c",
                 "8835",
-                "220d",
+                "8834",
                 "883",
-                "221",
+                "884",
                 "89",
-                "23",
-                "9"
-            ];
-            assert.equal(s2Tokens.length, expectedS2Tokens.length);
-            assert.deepEqual(s2Tokens, expectedS2Tokens);
+                "8c"
+            ]
+            assert.sameMembers(s2Tokens, expectedS2Tokens);
         });
     });
 });
