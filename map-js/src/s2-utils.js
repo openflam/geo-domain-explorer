@@ -73,10 +73,20 @@ function getS2TokensForLocation(lat, lon, error_m) {
     return s2Tokens;
 }
 
+function getS2VerticesForLocation(lat, lon, error_m) {
+    let s2Tokens = getS2TokensForLocation(lat, lon, error_m);
+    let s2Vertices = [];
+    for (let token of s2Tokens) {
+        let vertices = S2CellVerticesFromToken(token);
+        s2Vertices.push(vertices);
+    }
+    return s2Vertices;
+}
 
 export {
     getGeoDomainFromS2CellID,
     getGeoDomainsForCurrentCells,
     getS2TokenFromDomainDigits,
-    getS2TokensForLocation
+    getS2TokensForLocation,
+    getS2VerticesForLocation
 };
