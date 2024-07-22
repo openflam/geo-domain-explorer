@@ -10,10 +10,10 @@ export const globalState = {
     // These coordinates are used when creating S2 region cover.
     currentPolygonCoords: null,
 
-    // Layer group with S2 cells
+    // Layer group with S2 cells for region cover
     s2CellsLayerGroup: null,
 
-    // Dictionary of s2 cells currently being displayed
+    // Dictionary of s2 cells currently being displayed for region cover
     currentS2Cells: null,
 
     // Set the current polygon coordinates
@@ -24,6 +24,14 @@ export const globalState = {
         // The coordinates are in clockwise order, 
         // but the S2 region coverer expects them in counter-clockwise order
         this.currentPolygonCoords.reverse();
-    }
+    },
+
+    // Current marker layer
+    currentMarkerLayer: null,
+    currentMarkerErrorCircleLayer: null,
+
+    // S2 cells displayed for geodomain search
+    currentGeoS2CellsLayerGroup: null,
+
 };
 

@@ -2,6 +2,8 @@ package s2_region_coverer
 
 import (
 	"syscall/js"
+
+	"github.com/golang/geo/s2"
 )
 
 // JSGetS2CellsInRegion is a wrapper around GetS2CellIDStrings to be called from JavaScript.
@@ -39,4 +41,21 @@ func JSGetS2CellsInRegion(this js.Value, p []js.Value) interface{} {
 	}
 
 	return jsCellIDMap
+}
+
+// JSS2CellVerticesFromToken is a wrapper around getS2CellVertices to be called from JavaScript.
+func JSS2CellVerticesFromToken(this js.Value, p []js.Value) interface{} {
+	token := p[0].String()
+	vertices := getS2CellVertices(s2.CellIDFromToken(token))
+
+	// Convert Go slice to JS array
+	jsVertices := js.Global().Get("Array").New(len(vertices))
+	for i, vertex := range vertices {
+		jsVertex := js.Global().Get("Object").New()
+		jsVertex.Set("Lat", vertex.Lat)
+		jsVertex.Set("Lng", vertex.Lng)
+		jsVertices.SetIndex(i, jsVertex)
+	}
+
+	return jsVertices
 }

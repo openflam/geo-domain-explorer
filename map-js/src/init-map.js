@@ -1,4 +1,5 @@
 import { globalState } from "./global-state";
+import { drawGeoDomainsforCurrentMarker } from "./loc-to-cells";
 
 // leaflet, leaflet-geoman, and leaflet-geosearch are imported in index.html as including them in 
 // the bundle makes the bundle size too large
@@ -11,7 +12,7 @@ function initialize_leaflet_map() {
 
     // Add toolbar
     map.pm.addControls({
-        drawMarker: false,
+        drawMarker: true,
         drawCircleMarker: false,
         drawPolyline: false,
         drawRectangle: false,
@@ -30,15 +31,17 @@ function initialize_leaflet_map() {
 
     // When a new polygon is started, deletes the current polygon layer
     map.on('pm:drawstart', (e) => {
-        if (globalState.currentPolygonLayer) {
-            map.removeLayer(globalState.currentPolygonLayer);
-            globalState.currentPolygonLayer = null;
-            globalState.currentPolygonCoords = null;
-        }
-        if (globalState.s2CellsLayerGroup) {
-            map.removeLayer(globalState.s2CellsLayerGroup);
-            globalState.s2CellsLayerGroup = null;
-            globalState.currentS2Cells = null;
+        if (e.shape === 'Polygon') {
+            if (globalState.currentPolygonLayer) {
+                map.removeLayer(globalState.currentPolygonLayer);
+                globalState.currentPolygonLayer = null;
+                globalState.currentPolygonCoords = null;
+            }
+            if (globalState.s2CellsLayerGroup) {
+                map.removeLayer(globalState.s2CellsLayerGroup);
+                globalState.s2CellsLayerGroup = null;
+                globalState.currentS2Cells = null;
+            }
         }
     });
 
@@ -50,6 +53,29 @@ function initialize_leaflet_map() {
             const latLngs = layer.getLatLngs()[0];
             globalState.setCurrentPolygonCoords(latLngs);
             globalState.currentPolygonLayer = layer;
+        }
+        if (e.shape === 'Marker') {
+            const layer = e.layer
+            if (globalState.currentMarkerLayer) {
+                map.removeLayer(globalState.currentMarkerLayer);
+                map.removeLayer(globalState.currentMarkerErrorCircleLayer);
+                globalState.currentMarkerLayer = null;
+                globalState.currentMarkerErrorCircleLayer = null;
+            }
+            globalState.currentMarkerLayer = layer;
+
+            // Add error circle with radius equal to the error
+            let error_m = document.getElementById('gps-error').value;
+            globalState.currentMarkerErrorCircleLayer = L.circle(layer.getLatLng(), {
+                radius: error_m,
+                color: 'purple',
+                weight: 1,
+                fillColor: 'purple',
+                fillOpacity: 0.2,
+            }).addTo(map);
+
+            // Draw the geodomains for the current marker
+            drawGeoDomainsforCurrentMarker();
         }
     });
 
