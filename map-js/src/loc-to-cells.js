@@ -1,12 +1,12 @@
 import { getS2VerticesForLocation } from './s2-utils';
 import { globalState } from './global-state';
 
-function drawGeoDomainsforCurrentMarker() {
+async function drawGeoDomainsforCurrentMarker() {
     let markerLocation = globalState.currentMarkerLayer.getLatLng();
     let lat = markerLocation.lat;
     let lon = markerLocation.lng;
     let error_m = globalState.currentMarkerErrorCircleLayer.getRadius();
-    let domainTos2Vertices = getS2VerticesForLocation(lat, lon, error_m);
+    let domainTos2Vertices = await getS2VerticesForLocation(lat, lon, error_m);
 
     let layersList = [];
     for (let domain in domainTos2Vertices) {

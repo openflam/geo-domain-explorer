@@ -45,20 +45,17 @@ describe('S2Utils', function () {
             });
         });
 
-        it('getS2TokensForLocation should return the correct S2 tokens', function () {
+        it('getS2TokensForLocation should return the correct S2 tokens', async function () {
             const lat = 40.44;
             const lon = -79.95;
             const error_m = 5;
-            const domainToS2TokensDict = maputils.exportedForTesting.getS2TokensForLocation(lat, lon, error_m);
+            const domainToS2TokensDict = await maputils.exportedForTesting.getS2TokensForLocation(lat, lon, error_m);
             const s2Tokens = Object.values(domainToS2TokensDict);
 
             const expectedS2Tokens = [
                 "9",
-                "8834f2277fe4",
-                "8834f2277fec",
-                "8834f2277ff4",
-                "8834f2277ffc",
-                "8834f2277ff",
+                "8834f2277f8c",
+                "8834f2277f9",
                 "8834f2277fc",
                 "8834f2277f",
                 "8834f2277c",
@@ -77,8 +74,31 @@ describe('S2Utils', function () {
                 "883",
                 "884",
                 "89",
-                "8c"
-            ]
+                "8c",
+                "8834f2277f94",
+                "8834f2277fbfc",
+                "8834f2277fbf",
+                "8834f2277fbc",
+                "8834f2277fb",
+                "8834f2277fc4",
+                "8834f2277fd",
+                "8834f2277fdc",
+                "8834f2277ff",
+                "8834f2278001c",
+                "8834f2278001",
+                "8834f2278004",
+                "8834f227801",
+                "8834f227804",
+                "8834f22781",
+                "8834f22784",
+                "8834f2279",
+                "8834f227c",
+                "8834f2278003",
+                "8834f227801d",
+                "8834f227801c",
+                "8834f227801e4",
+                "8834f227801f"
+            ];
             assert.sameMembers(s2Tokens, expectedS2Tokens);
         });
     });

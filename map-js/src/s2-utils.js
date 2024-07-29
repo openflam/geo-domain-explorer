@@ -82,9 +82,10 @@ function getGeoDomainsForCurrentCells(suffix) {
 }
 
 
-function getS2TokensForLocation(lat, lon, error_m) {
+async function getS2TokensForLocation(lat, lon, error_m) {
     // Get geo domains for the location
-    var geoDomains = LocationToGeoDomain.getGeoDomains(lat, lon, error_m, 'loc');
+    var geoDomains = await LocationToGeoDomain.getGeoDomains(
+        parseFloat(lat), parseFloat(lon), parseFloat(error_m), 'loc');
     var domainTos2Tokens = {};
     for (let domain of geoDomains) {
         // Remove the suffix
@@ -96,8 +97,8 @@ function getS2TokensForLocation(lat, lon, error_m) {
     return domainTos2Tokens;
 }
 
-function getS2VerticesForLocation(lat, lon, error_m) {
-    let domainToS2Token = getS2TokensForLocation(lat, lon, error_m);
+async function getS2VerticesForLocation(lat, lon, error_m) {
+    let domainToS2Token = await getS2TokensForLocation(lat, lon, error_m);
     let domainTos2Vertices = {};
     for (let domain in domainToS2Token) {
         let s2Token = domainToS2Token[domain];
