@@ -60,7 +60,7 @@ function generateZoneFile(params) {
         var subDomain = domain.slice(0, domain.length - origin.length - 1);
         zoneJSON["txt"].push({
             "name": subDomain,
-            "txt": JSON.stringify({ "type": params.rrType, "data": params.rrData }),
+            "txt": `type@${params.rrType};data@${params.rrData}`,
         });
     }
 
