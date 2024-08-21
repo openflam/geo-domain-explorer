@@ -19,7 +19,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@openvps/dnsspatialdiscovery": "^3.0.0",
+    "@openvps/dnsspatialdiscovery": "^3.1.0",
     "dns-zonefile": "^0.3.2"
   }
 }
