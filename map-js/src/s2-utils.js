@@ -1,5 +1,5 @@
 import { globalState } from './global-state';
-import { LocationToGeoDomain } from '@openvps/dnsspatialdiscovery';
+import { LocationToGeoDomain } from '@openflam/dnsspatialdiscovery';
 
 /*
  * S2 hex token -> domain digits
@@ -69,11 +69,11 @@ function binaryIDToDomainDigits(binaryID) {
     return domainDigits;
 }
 
-function domainDigitsToAddress(domainDigits, suffix) {
-    return domainDigits.join('.') + '.' + suffix;
+function domainDigitsToAddress(domainDigits, suffix, altitude) {
+    return altitude.toString() + '.' + domainDigits.join('.') + '.' + suffix;
 }
 
-function getGeoDomainsForCurrentCells(suffix) {
+function getGeoDomainsForCurrentCells(suffix, altitude = 'U', addUnkownAltitudeRecords = false) {
     if (!globalState.currentS2Cells) {
         alert('Please generate S2 cells first');
         return null;
@@ -81,7 +81,10 @@ function getGeoDomainsForCurrentCells(suffix) {
     var domains = [];
     for (let s2Token in globalState.currentS2Cells) {
         let domainDigits = tokenToDomainDigits(s2Token);
-        domains.push(domainDigitsToAddress(domainDigits, suffix));
+        domains.push(domainDigitsToAddress(domainDigits, suffix, altitude));
+        if (addUnkownAltitudeRecords && altitude !== 'U') {
+            domains.push(domainDigitsToAddress(domainDigits, suffix, 'U'));
+        }
     }
     return domains;
 }
@@ -93,9 +96,9 @@ async function getS2TokensForLocation(lat, lon, error_m) {
         parseFloat(lat), parseFloat(lon), parseFloat(error_m), 'loc');
     var domainTos2Tokens = {};
     for (let domain of geoDomains) {
-        // Remove the suffix
+        // Remove the suffix and altitude
         let domainDigits = domain.split('.');
-        domainDigits = domainDigits.slice(0, domainDigits.length - 1);
+        domainDigits = domainDigits.slice(1, domainDigits.length - 1);
 
         domainTos2Tokens[domainDigits.join('.')] = domainDigitsToToken(domainDigits);
     }

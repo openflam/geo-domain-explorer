@@ -29,7 +29,7 @@ function generateZoneFile(params) {
     if (suffix[suffix.length - 1] != '.') {
         suffix += '.';
     }
-    var domains = getGeoDomainsForCurrentCells(suffix);
+    var domains = getGeoDomainsForCurrentCells(suffix, params.altitude, params.addUnkownAltitudeRecords);
     if (!domains) {
         return null;
     }
@@ -70,6 +70,9 @@ function generateZoneFile(params) {
 
 function generateZoneFileFromDOM() {
     const params = {
+        unknownAltidude: document.getElementById('unknown-altitude').checked,
+        altitude: document.getElementById('altitude').value,
+        addUnkownAltitudeRecords: document.getElementById('add-unknown-altitude').checked,
         dnsSuffix: document.getElementById('dns-suffix').value,
         mname: document.getElementById('mname').value,
         rname: document.getElementById('rname').value,
@@ -81,6 +84,10 @@ function generateZoneFileFromDOM() {
         rrData: document.getElementById('rr-data').value,
         TTL: document.getElementById('ttl').value,
     };
+
+    if (params.unknownAltidude) {
+        params.altitude = 'U';
+    }
 
     const zoneFileText = generateZoneFile(params);
     if (!zoneFileText) {
