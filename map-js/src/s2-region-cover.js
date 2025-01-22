@@ -8,7 +8,7 @@ function getS2RegionCover(maxCells, polygonCoords) {
     var maxCells = maxCells;
 
     // Check if the points are in clockwise order
-    if (checkAntiClockwise(points)) {
+    if (!checkAntiClockwise(points)) {
         points = points.reverse();
     }
     var cells = GetS2CellsInRegion(points, minLevel, maxLevel, maxCells);
@@ -16,14 +16,13 @@ function getS2RegionCover(maxCells, polygonCoords) {
 }
 
 function checkAntiClockwise(points) {
-    let p1 = points[0];
-    let p2 = points[1];
-    let p3 = points[2];
-
-    let v1 = { x: p2.Lng - p1.Lng, y: p2.Lat - p1.Lat };
-    let v2 = { x: p3.Lng - p2.Lng, y: p3.Lat - p2.Lat };
-
-    return (v1.x * v2.y - v1.y * v2.x) < 0;
+    var sum = 0;
+    for (var i = 0; i < points.length; i++) {
+        var p1 = points[i];
+        var p2 = points[(i + 1) % points.length];
+        sum += (p2.Lng - p1.Lng) * (p2.Lat + p1.Lat);
+    }
+    return sum < 0;
 }
 
 // Draw the S2 region cover on the map
