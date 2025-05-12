@@ -14,7 +14,9 @@ async function drawGeoDomainsforCurrentMarker() {
         let coords = s2CellVertices.map((coord) => {
             return [coord.Lat, coord.Lng];
         });
-        var polygon = L.polygon(coords, {
+        // Add the first coordinate to the end of the array to close the polygon
+        coords.push(coords[0]);
+        var polygon = L.geodesic(coords, {
             color: 'purple',
             fillOpacity: 0,
             opacity: 1,
